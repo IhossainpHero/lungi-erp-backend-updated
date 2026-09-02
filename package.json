@@ -9,7 +9,7 @@
     "dev": "ts-node-dev --files --require tsconfig-paths/register src/server.ts"
   },
   "dependencies": {
-    "@sparticuz/chromium": "^131.0.1",
+    "@sparticuz/chromium-min": "^149.0.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "date-fns": "^3.6.0",

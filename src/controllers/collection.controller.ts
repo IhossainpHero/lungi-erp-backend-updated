@@ -941,35 +941,52 @@ tbody tr:last-child td,
       const isVercel = process.env.VERCEL === "1";
 
       // ====================================================
+      // PUPPETEER CORE
+      // ====================================================
+
+      const puppeteer = await import("puppeteer-core");
+
+      // ====================================================
       // VERCEL / PRODUCTION
       // ====================================================
 
       if (isVercel) {
-        const chromium = (await import("@sparticuz/chromium")).default;
+        const chromium = (await import("@sparticuz/chromium-min")).default;
 
-        const puppeteer = await import("puppeteer-core");
+        // Chromium tar archive is created during build by
+        // scripts/postinstall.mjs and served from /public.
+        let chromiumPackUrl = process.env.CHROMIUM_PACK_URL;
 
-        const executablePath = await chromium.executablePath();
+        if (!chromiumPackUrl) {
+          const vercelDomain =
+            process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL;
+
+          if (!vercelDomain) {
+            throw new Error("CHROMIUM_PACK_URL or VERCEL_URL is not available");
+          }
+
+          chromiumPackUrl = vercelDomain.startsWith("http")
+            ? `${vercelDomain}/chromium-pack.tar`
+            : `https://${vercelDomain}/chromium-pack.tar`;
+        }
+
+        console.log("Chromium pack URL:", chromiumPackUrl);
+
+        const executablePath = await chromium.executablePath(chromiumPackUrl);
 
         console.log("Chromium executable path:", executablePath);
 
         browser = await puppeteer.default.launch({
           args: [
             ...chromium.args,
-
             "--no-sandbox",
             "--disable-setuid-sandbox",
             "--disable-dev-shm-usage",
             "--disable-gpu",
             "--no-zygote",
-            "--single-process",
           ],
-
-          defaultViewport: chromium.defaultViewport,
-
           executablePath,
-
-          headless: chromium.headless,
+          headless: true,
         });
       }
 
@@ -977,8 +994,6 @@ tbody tr:last-child td,
       // LOCAL DEVELOPMENT
       // ====================================================
       else {
-        const puppeteer = await import("puppeteer-core");
-
         const chromePath =
           process.env.CHROME_EXECUTABLE_PATH ||
           "C:/Program Files/Google/Chrome/Application/chrome.exe";
@@ -987,9 +1002,7 @@ tbody tr:last-child td,
 
         browser = await puppeteer.default.launch({
           headless: true,
-
           executablePath: chromePath,
-
           args: [
             "--no-sandbox",
             "--disable-setuid-sandbox",
@@ -1019,16 +1032,13 @@ tbody tr:last-child td,
       const pdfBuffer = Buffer.from(
         await page.pdf({
           format: "A5",
-
           margin: {
             top: "0",
             bottom: "0",
             left: "0",
             right: "0",
           },
-
           printBackground: true,
-
           preferCSSPageSize: false,
         }),
       );
