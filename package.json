@@ -4,10 +4,9 @@
   "description": "Lungi Processing ERP - Backend API",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/server.ts",
     "build": "tsc && tsc-alias",
-    "start": "node dist/server.js",
-    "seed": "ts-node -r tsconfig-paths/register src/scripts/seedServices.ts"
+    "start": "node dist/app.js",
+    "dev": "ts-node-dev --require tsconfig-paths/register src/app.ts"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -30,6 +29,7 @@
     "@types/jsonwebtoken": "^9.0.5",
     "@types/morgan": "^1.9.9",
     "@types/node": "^20.10.0",
+    "@vercel/node": "^12.0.0",
     "nodemon": "^3.0.2",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.9.3",
