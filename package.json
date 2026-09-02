@@ -18,8 +18,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3",
     "morgan": "^1.10.0",
-    "@sparticuz/chromium": "^149.0.0",
-    "puppeteer-core": "^25.9.0",
+    "puppeteer-core": "^23.11.1",
+    "@sparticuz/chromium": "^131.0.1",
     "socket.io": "^4.8.3",
     "zod": "^3.22.4"
   },

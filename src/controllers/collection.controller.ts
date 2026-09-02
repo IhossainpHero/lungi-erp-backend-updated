@@ -12,16 +12,6 @@ import fs from "fs";
 import path from "path";
 import { emitDataChanged } from "../socket";
 
-const getBrowser = async () => {
-  const executablePath =
-    process.env.PUPPETEER_EXECUTABLE_PATH || (await chromium.executablePath());
-
-  return puppeteer.launch({
-    args: chromium.args,
-    executablePath,
-    headless: true,
-  });
-};
 const FONT_REGULAR_PATH = path.join(
   process.cwd(),
   "src/assets/fonts/NotoSansBengali-Regular.ttf",
@@ -472,7 +462,29 @@ export const generateCollectionBill = asyncHandler(
 
     let browser;
     try {
-      browser = await getBrowser();
+      const isProd =
+        process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
+      const puppeteer = await import("puppeteer-core");
+
+      if (isProd) {
+        const chromium = (await import("@sparticuz/chromium")).default;
+        browser = await puppeteer.launch({
+          headless: true,
+          args: chromium.args,
+          executablePath: await chromium.executablePath(),
+        });
+      } else {
+        // লোকাল ডেভেলপমেন্টে সিস্টেমে ইনস্টল করা Chrome ব্যবহার হবে
+        browser = await puppeteer.launch({
+          headless: true,
+          args: ["--no-sandbox", "--disable-setuid-sandbox"],
+          executablePath:
+            process.env.CHROME_EXECUTABLE_PATH ||
+            "C:/Program Files/Google/Chrome/Application/chrome.exe",
+        });
+      }
+      // ↑ (browser launch এর if/else ব্লক শেষ হওয়ার পর, এখানে যোগ করুন:)
+
       const page = await browser.newPage();
       await page.setContent(html, { waitUntil: "load" });
       const pdfBuffer = Buffer.from(
@@ -483,6 +495,7 @@ export const generateCollectionBill = asyncHandler(
         }),
       );
 
+      res.setHeader("Content-Type", "application/pdf");
       res.setHeader("Content-Type", "application/pdf");
       res.setHeader(
         "Content-Disposition",
