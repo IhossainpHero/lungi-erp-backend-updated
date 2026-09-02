@@ -10,7 +10,7 @@ import { format } from "date-fns";
 import { Request, Response } from "express";
 import fs from "fs";
 import path from "path";
-import puppeteer from "puppeteer";
+// import puppeteer from "puppeteer";
 import { emitDataChanged } from "../socket";
 
 const FONT_REGULAR_PATH = path.join(
@@ -463,6 +463,7 @@ export const generateCollectionBill = asyncHandler(
 
     let browser;
     try {
+      const puppeteer = (await import("puppeteer")).default;
       browser = await puppeteer.launch({
         headless: true,
         args: ["--no-sandbox", "--disable-setuid-sandbox"],
