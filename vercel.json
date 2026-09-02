@@ -1,6 +1,5 @@
 {
   "version": 2,
   "buildCommand": "npm run build",
-  "builds": [{ "src": "api/index.ts", "use": "@vercel/node" }],
-  "rewrites": [{ "source": "/(.*)", "destination": "api/index.ts" }]
+  "rewrites": [{ "source": "/(.*)", "destination": "/api/index" }]
 }
