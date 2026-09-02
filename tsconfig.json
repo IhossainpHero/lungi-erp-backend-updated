@@ -1,0 +1,50 @@
+{
+  "compilerOptions": {
+    /* Basic */
+    "target": "ES2020",
+    "module": "commonjs",
+    "lib": ["ES2020"],
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    /* Strict Type Checking */
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Module Resolution */
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+
+    /* Path Aliases */
+    "paths": {
+      "@config/*": ["src/config/*"],
+      "@models/*": ["src/models/*"],
+      "@controllers/*": ["src/controllers/*"],
+      "@services/*": ["src/services/*"],
+      "@routes/*": ["src/routes/*"],
+      "@middleware/*": ["src/middleware/*"],
+      "@interfaces/*": ["src/types/*"],
+      "@validators/*": ["src/validators/*"],
+      "@utils/*": ["src/utils/*"]
+    },
+
+    /* Type Declaration */
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "skipLibCheck": true,
+
+    /* Output */
+    "declaration": true,
+    "sourceMap": true
+  },
+
+  /* ts-node fix (VERY IMPORTANT) */
+  "ts-node": {
+    "files": true
+  },
+
+  /* Include / Exclude */
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
