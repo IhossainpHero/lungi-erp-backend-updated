@@ -11,7 +11,7 @@ import {
   updateDamageStatusSchema,
 } from "@validators/index";
 import { Request, Response } from "express";
-import { emitDataChanged } from "src/socket";
+import { emitDataChanged } from "../socket";
 
 // 📌 GET
 // 📌 GET

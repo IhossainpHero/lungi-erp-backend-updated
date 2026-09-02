@@ -10,7 +10,7 @@ import {
 } from "@validators/index";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { emitDataChanged } from "src/socket";
+import { emitDataChanged } from "../socket";
 
 const generateToken = (
   id: string,

@@ -7,7 +7,7 @@ import { ApiResponse } from "@utils/ApiResponse";
 import { asyncHandler } from "@utils/asyncHandler";
 import { createPartySchema, updatePartySchema } from "@validators/index";
 import { Request, Response } from "express";
-import { emitDataChanged } from "src/socket";
+import { emitDataChanged } from "../socket";
 
 // GET /api/parties — list with optional search
 export const getParties = asyncHandler(async (req: Request, res: Response) => {

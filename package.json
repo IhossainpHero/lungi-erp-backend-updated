@@ -5,8 +5,8 @@
   "main": "dist/server.js",
   "scripts": {
     "build": "tsc && tsc-alias",
-    "start": "node dist/app.js",
-    "dev": "ts-node-dev --require tsconfig-paths/register src/app.ts"
+    "start": "node dist/server.js",
+    "dev": "ts-node-dev --files --require tsconfig-paths/register src/server.ts"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -32,6 +32,7 @@
     "@vercel/node": "^12.0.0",
     "nodemon": "^3.0.2",
     "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
     "tsc-alias": "^1.9.3",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.2"
