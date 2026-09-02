@@ -10,9 +10,18 @@ import { format } from "date-fns";
 import { Request, Response } from "express";
 import fs from "fs";
 import path from "path";
-// import puppeteer from "puppeteer";
 import { emitDataChanged } from "../socket";
 
+const getBrowser = async () => {
+  const executablePath =
+    process.env.PUPPETEER_EXECUTABLE_PATH || (await chromium.executablePath());
+
+  return puppeteer.launch({
+    args: chromium.args,
+    executablePath,
+    headless: true,
+  });
+};
 const FONT_REGULAR_PATH = path.join(
   process.cwd(),
   "src/assets/fonts/NotoSansBengali-Regular.ttf",
@@ -463,11 +472,7 @@ export const generateCollectionBill = asyncHandler(
 
     let browser;
     try {
-      const puppeteer = (await import("puppeteer")).default;
-      browser = await puppeteer.launch({
-        headless: true,
-        args: ["--no-sandbox", "--disable-setuid-sandbox"],
-      });
+      browser = await getBrowser();
       const page = await browser.newPage();
       await page.setContent(html, { waitUntil: "load" });
       const pdfBuffer = Buffer.from(
