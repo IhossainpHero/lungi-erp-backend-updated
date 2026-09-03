@@ -951,7 +951,19 @@ tbody tr:last-child td,
       // ====================================================
 
       if (isVercel) {
-        const chromium = (await import("@sparticuz/chromium-min")).default;
+        // NOTE: TypeScript downlevels `await import(...)` to `require(...)`
+        // when "module" is "commonjs" in tsconfig.json. @sparticuz/chromium-min
+        // is ESM-only, so that plain `require()` throws ERR_REQUIRE_ESM at
+        // runtime on Vercel. The trick below builds the import() call with
+        // `new Function(...)` so TypeScript can't see/rewrite it, forcing a
+        // genuine dynamic import that can load an ESM package from CJS code.
+        const trueDynamicImport = new Function(
+          "modulePath",
+          "return import(modulePath)",
+        ) as (modulePath: string) => Promise<any>;
+
+        const chromium = (await trueDynamicImport("@sparticuz/chromium-min"))
+          .default;
 
         // Chromium tar archive is created during build by
         // scripts/postinstall.mjs and served from /public.

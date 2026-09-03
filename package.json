@@ -6,10 +6,11 @@
   "scripts": {
     "build": "tsc && tsc-alias",
     "start": "node dist/server.js",
-    "dev": "ts-node-dev --files --require tsconfig-paths/register src/server.ts"
+    "dev": "ts-node-dev --files --require tsconfig-paths/register src/server.ts",
+    "postinstall": "node scripts/postinstall.mjs"
   },
   "dependencies": {
-    "@sparticuz/chromium-min": "^149.0.0",
+    "@sparticuz/chromium-min": "^141.0.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "date-fns": "^3.6.0",
@@ -19,11 +20,12 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3",
     "morgan": "^1.10.0",
-    "puppeteer-core": "^23.11.1",
+    "puppeteer-core": "^23.11.0",
     "socket.io": "^4.8.3",
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@sparticuz/chromium": "^141.0.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
@@ -32,6 +34,7 @@
     "@types/node": "^20.10.0",
     "@vercel/node": "^12.0.0",
     "nodemon": "^3.0.2",
+    "puppeteer": "^23.11.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "tsc-alias": "^1.9.3",
