@@ -1,7 +1,12 @@
 {
   "version": 2,
   "buildCommand": "npm run build",
-  "outputDirectory": ".",
+  "outputDirectory": "public",
+  "functions": {
+    "api/index.ts": {
+      "includeFiles": "node_modules/@sparticuz/chromium-min/**"
+    }
+  },
   "rewrites": [
     {
       "source": "/(.*)",
