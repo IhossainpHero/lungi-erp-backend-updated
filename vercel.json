@@ -2,6 +2,7 @@
   "version": 2,
   "buildCommand": "npm run build",
   "outputDirectory": "public",
+  "regions": ["sin1"],
   "functions": {
     "api/index.ts": {
       "includeFiles": "node_modules/@sparticuz/chromium-min/**"
